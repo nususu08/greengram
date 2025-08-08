@@ -4,13 +4,18 @@ import lombok.*;
 import org.springframework.validation.FieldError;
 
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidationError {
     private String field;
     private String message;
 
     public static ValidationError of(final FieldError fieldError) {
-        return new ValidationError(fieldError.getField(), fieldError.getDefaultMessage());
+        return ValidationError.builder()
+                .field(fieldError.getField())
+                .message(fieldError.getDefaultMessage())
+                .build();
     }
 
     @Override

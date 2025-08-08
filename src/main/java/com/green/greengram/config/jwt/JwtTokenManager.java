@@ -1,5 +1,6 @@
 package com.green.greengram.config.jwt;
 
+
 import com.green.greengram.config.constants.ConstJwt;
 import com.green.greengram.config.model.JwtUser;
 import com.green.greengram.config.model.UserPrincipal;
@@ -85,7 +86,7 @@ public class JwtTokenManager {
         setAccessTokenInCookie(response, accessToken);
     }
 
-    public void logout(HttpServletResponse response) {
+    public void signOut(HttpServletResponse response) {
         deleteAccessTokenInCookie(response);
         deleteRefreshTokenInCookie(response);
     }

@@ -30,7 +30,7 @@ public class JwtTokenProvider {
     }
 
     //JWT 토큰 생성
-    public String generateToken(JwtUser jwtUser, int tokenValidityMilliSeconds) {
+    public String generateToken(JwtUser jwtUser, long tokenValidityMilliSeconds) {
         Date now = new Date(); //Data객체를 기본생성자로 만들면 현재일시 정보로 객체화
         return Jwts.builder()
                 //header
@@ -52,7 +52,7 @@ public class JwtTokenProvider {
         try {
             return objectMapper.writeValueAsString(jwtUser);
         } catch (JsonProcessingException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "토큰 생성 에러 발생");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "토큰 생성 에러 발생" );
         }
     }
 
@@ -62,7 +62,7 @@ public class JwtTokenProvider {
             String json = claims.get(constJwt.getClaimKey(), String.class);
             return objectMapper.readValue(json, JwtUser.class);
         } catch (JsonProcessingException e) {
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "토큰 문제 발생");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "토큰 문제 발생" );
         }
     }
 
