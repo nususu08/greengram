@@ -1,6 +1,9 @@
-package com.green.greengram.application.Feed;
+package com.green.greengram.application.feed;
 
-import com.green.greengram.application.Feed.model.FeedPostReq;
+import com.green.greengram.application.feed.model.FeedGetDto;
+import com.green.greengram.application.feed.model.FeedGetRes;
+import com.green.greengram.application.feed.model.FeedPostReq;
+import com.green.greengram.application.feed.model.FeedPostRes;
 import com.green.greengram.config.util.ImgUploadManager;
 import com.green.greengram.entity.Feed;
 import com.green.greengram.entity.User;
@@ -17,10 +20,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeedService {
     private final FeedRepository feedRepository;
+    private final FeedMapper feedMapper;
     private final ImgUploadManager imgUploadManager;
 
     @Transactional
-    public void postFeed(long signedUserId, FeedPostReq feedPostReq, List<MultipartFile> pics) {
+    public FeedPostRes postFeed(long signedUserId, FeedPostReq feedPostReq, List<MultipartFile> pics) {
         User writerUser = new User();
         writerUser.setUserId(signedUserId);
 
@@ -34,5 +38,15 @@ public class FeedService {
 
             List<String> fileNames = imgUploadManager.saveFeedPic(feed.getFeedId(), pics);
             feed.addFeedPics(fileNames);
+            return new FeedPostRes(feed.getFeedId(), fileNames);
+    }
+
+    public List<FeedGetRes> getFeedList(FeedGetDto dto) {
+        List<FeedGetRes> list = feedMapper.findAllLimitedTo(dto);
+        //각 피드에서 사진 가져오기
+        for(FeedGetRes feedGetRes : list) {
+            feedGetRes.setPics(feedMapper.findAllPicByFeedId(feedGetRes.getFeedId()));
+        }
+        return list;
     }
 }

@@ -1,4 +1,4 @@
-package com.green.greengram.application.Feed.model;
+package com.green.greengram.application.feed.model;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

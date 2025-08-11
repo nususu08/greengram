@@ -1,4 +1,4 @@
-package com.green.greengram.application.Feed;
+package com.green.greengram.application.feed;
 
 
 import com.green.greengram.entity.Feed;
