@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenManager {
-    private final ConstJwt constJwt;
-    private final CookieUtils cookieUtils;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final ConstJwt constJwt; // 설정 내용(문자열)
+    private final CookieUtils cookieUtils; // 쿠키 관련
+    private final JwtTokenProvider jwtTokenProvider; // JWT 관련
 
     public void issue(HttpServletResponse response, JwtUser jwtUser) {
         setAccessTokenInCookie(response, jwtUser);

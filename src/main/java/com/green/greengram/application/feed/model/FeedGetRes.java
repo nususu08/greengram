@@ -18,4 +18,6 @@ public class FeedGetRes {
     private String writerPic;
     private int isLike; // 0: 좋아요 아닌 피드, 1: 좋아한 피드
     private List<String> pics;
+
+    private FeedCommentGetRes feedComment;
 }
