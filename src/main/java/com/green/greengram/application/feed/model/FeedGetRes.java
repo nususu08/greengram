@@ -1,5 +1,6 @@
 package com.green.greengram.application.feed.model;
 
+import com.green.greengram.application.feedcomment.model.FeedCommentGetRes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,8 @@ public class FeedGetRes {
     private String writerUid;
     private String writerNickName;
     private String writerPic;
-    private int isLike; // 0: 좋아요 아닌 피드, 1: 좋아한 피드
+    private int isLike; //0: 좋아요 아닌 피드, 1: 좋아요한 피드
     private List<String> pics;
 
-    private FeedCommentGetRes feedComment;
+    private FeedCommentGetRes comments; //댓글 정보
 }

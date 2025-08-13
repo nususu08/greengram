@@ -1,4 +1,4 @@
-package com.green.greengram.application.feed.model;
+package com.green.greengram.application.feedcomment.model;
 
 import lombok.Getter;
 

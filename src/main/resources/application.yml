@@ -3,6 +3,9 @@ constants:
     upload-directory: D:\BJG\practice\BE\upload
     feed-pic: /feed
     profile-pic: /profile
+  comment:
+    start-index: 0
+    need-for-view-count: 3 #피드 리스트를 뿌릴 때 실제로 보여주는 피드당 보여지는 댓글 수
 
   jwt:
     issuer: green502@green.com #토큰 발행자

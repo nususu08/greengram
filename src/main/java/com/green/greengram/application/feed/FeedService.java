@@ -2,6 +2,10 @@ package com.green.greengram.application.feed;
 
 import com.green.greengram.application.feed.model.*;
 import com.green.greengram.application.feedcomment.FeedCommentMapper;
+import com.green.greengram.application.feedcomment.model.FeedCommentGetReq;
+import com.green.greengram.application.feedcomment.model.FeedCommentGetRes;
+import com.green.greengram.application.feedcomment.model.FeedCommentItem;
+import com.green.greengram.config.constants.ConstComment;
 import com.green.greengram.config.util.ImgUploadManager;
 import com.green.greengram.entity.Feed;
 import com.green.greengram.entity.User;
@@ -21,6 +25,7 @@ public class FeedService {
     private final FeedCommentMapper feedCommentMapper;
     private final FeedMapper feedMapper;
     private final ImgUploadManager imgUploadManager;
+    private final ConstComment constComment;
 
     @Transactional
     public FeedPostRes postFeed(long signedUserId, FeedPostReq feedPostReq, List<MultipartFile> pics) {
@@ -42,13 +47,17 @@ public class FeedService {
 
     public List<FeedGetRes> getFeedList(FeedGetDto dto) {
         List<FeedGetRes> list = feedMapper.findAllLimitedTo(dto);
-        //각 피드에서 사진 가져오기, 댓글 가져오기 (4개만)
         for(FeedGetRes feedGetRes : list) {
             feedGetRes.setPics(feedMapper.findAllPicByFeedId(feedGetRes.getFeedId()));
-            // startIdx: 0, size: 4
-            List<FeedCommentItem> comment = feedCommentMapper.findAllByFeedIdLimitedTo(new FeedCommentGetReq(feedGetRes.getFeedId(), 0, 4));
-            FeedCommentGetRes result = new FeedCommentGetRes(comment.size() > 3, comment);
-            feedGetRes.setFeedComment(result);
+            //startIdx:0, size: 4
+            FeedCommentGetReq req = new FeedCommentGetReq(feedGetRes.getFeedId(), constComment.startIndex, constComment.needForViewCount);
+            List<FeedCommentItem> commentList = feedCommentMapper.findAllByFeedIdLimitedTo(req);
+            boolean moreComment = commentList.size() > constComment.needForViewCount;
+            FeedCommentGetRes feedCommentGetRes = new FeedCommentGetRes(moreComment, commentList);
+            feedGetRes.setComments(feedCommentGetRes);
+            if(moreComment) { //마지막 댓글 삭제
+                commentList.remove(constComment.needForViewCount);
+            }
         }
         return list;
     }

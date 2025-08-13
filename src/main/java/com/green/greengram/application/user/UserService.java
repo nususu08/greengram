@@ -1,9 +1,6 @@
 package com.green.greengram.application.user;
 
-import com.green.greengram.application.user.model.UserSignInDto;
-import com.green.greengram.application.user.model.UserSignInReq;
-import com.green.greengram.application.user.model.UserSignInRes;
-import com.green.greengram.application.user.model.UserSignUpReq;
+import com.green.greengram.application.user.model.*;
 import com.green.greengram.config.enumcode.model.EnumUserRole;
 import com.green.greengram.config.model.JwtUser;
 import com.green.greengram.config.util.ImgUploadManager;
@@ -25,6 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ImgUploadManager imgUploadManager;
@@ -75,4 +73,9 @@ public class UserService {
                 .userSignInRes(userSignInRes)
                 .build();
     }
+
+    public UserProfileGetRes getProfileUser(UserProfileGetDto dto) {
+       return userMapper.findProfileByUserId(dto);
+    }
+
 }
